@@ -1,4 +1,4 @@
-# data_structure_sem3
+# Practical Code
 Hello!!!
 Welcome to the repository.
 This is just a repo made for learning and fun purpose.
