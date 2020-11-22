@@ -98,8 +98,9 @@ void inorder(struct node *root)
 {
     if(root!=NULL) // checking if the root is not null
     {
+        printf("Inorder: ");
         inorder(root->left_child); // visiting left child
-        printf("Inorder: %d ", root->data); // printing data at root
+        printf("%d ", root->data); // printing data at root
         inorder(root->right_child);// visiting right child
     }
 }
@@ -115,7 +116,7 @@ int main()
     while(1){
     	
     	printf("*******************MENU*******************");
-    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n");
+    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4.Exit\n");
     	printf("Enter your choice: ");
     	scanf ("%d", &ch);
     	
