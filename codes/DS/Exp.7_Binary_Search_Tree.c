@@ -116,7 +116,7 @@ int main()
     while(1){
     	
     	printf("*******************MENU*******************");
-    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4.Exit\n");
+    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4. Exit\n");
     	printf("Enter your choice: ");
     	scanf ("%d", &ch);
     	
