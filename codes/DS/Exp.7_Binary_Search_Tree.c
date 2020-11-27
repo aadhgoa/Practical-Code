@@ -96,27 +96,47 @@ struct node* pop(struct node *root, int x)
 
 void inorder(struct node *root)
 {
+	
     if(root!=NULL) // checking if the root is not null
     {
-        printf("Inorder: ");
+        
         inorder(root->left_child); // visiting left child
-        printf("%d ", root->data); // printing data at root
+        printf(" %d ", root->data); // printing data at root
         inorder(root->right_child);// visiting right child
     }
+}
+
+void preorder(struct node *root)
+{
+	if(root != NULL)  //checking if the root is not null
+	{
+		printf(" %d ", root->data);//printing the data at root
+		preorder(root->left_child);//visiting left child 
+		preorder(root->right_child);//vsiting right child
+	}
+}
+
+void postorder(struct node *root){
+	if(root != NULL)
+	{
+		postorder(root->left_child);
+		postorder(root->right_child);
+		printf(" %d ", root->data);
+	}
 }
 
 int main()
 {
 	int ch, num;
 	struct node *root;
-	printf("Enter a root node number: ");
+	printf("\nEnter a root node number: ");
 	scanf("%d", &num);
     root = new_node(num);
 
     while(1){
     	
     	printf("*******************MENU*******************");
-    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4. Exit\n");
+    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4. PreOrder\n5. Postorder\n6. Exit\n");
     	printf("Enter your choice: ");
     	scanf ("%d", &ch);
     	
@@ -135,12 +155,26 @@ int main()
 			}	
 			
 			case 3: {
+				printf("Inorder: ");
 				inorder(root);
 				printf("\n");
 				break;
 			}
 			
-			case 4:
+			case 4:{
+				printf("Preorder: ");
+				preorder(root);
+				printf("\n");
+				break;
+			}
+			
+			case 5:{
+				printf("Postorder: ");
+				postorder(root);
+				printf("\n");
+				break;
+			}
+			case 6:
 				exit(0);
     			
     		default:{
