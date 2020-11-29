@@ -1,24 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct node
 {
-    int data; //node will store an integer
-    struct node *right_child; // right child
-    struct node *left_child; // left child
+    int data; 
+    struct node *right_child; 
+    struct node *left_child; 
 };
 
-//function to find the minimum value in a node
-struct node* find_minimum(struct node *root)
-{
-    if(root == NULL)
-        return NULL;
-    else if(root->left_child != NULL) // node with minimum value will have no left child
-        return find_minimum(root->left_child); // left most element will be minimum
-    return root;
-}
 
-//function to create a node
 struct node* new_node(int x)
 {
     struct node *newNode = (struct node*) malloc (sizeof(struct node));
@@ -29,90 +20,16 @@ struct node* new_node(int x)
     return newNode;
 }
 
-struct node* insert(struct node *root, int x)
-{
-    //searching for the place to insert
-    if(root==NULL)
-        return new_node(x);
-    else if(x > root->data) // x is greater. Should be inserted to right
-        root->right_child = insert(root->right_child, x);
-    else // x is smaller should be inserted to left
-        root->left_child = insert(root->left_child,x);
-    //return root;
-}
 
-// funnction to delete a node
-struct node* pop(struct node *root, int x)
-{
-    //searching for the item to be deleted
-    if(root==NULL)
-        return NULL;
-    if (x>root->data)
-        root->right_child = pop(root->right_child, x);
-    else if(x<root->data)
-        root->left_child = pop(root->left_child, x);
-    else
-    {
-        //No Children
-        if(root->left_child==NULL && root->right_child==NULL)
-        {
-            free(root);
-            return NULL;
-        }
+struct node* find_minimum(struct node *root);
+struct node* insert(struct node *root, int x);
+struct node* pop(struct node *root, int x);
+void Search(struct node *root, int x);
+void inorder(struct node *root);
+void preorder(struct node *root);
+void postorder(struct node *root);
 
-        //One Child
-        else if(root->left_child==NULL || root->right_child==NULL)
-        {
-            struct node *temp;
-            if(root->left_child==NULL)
-                temp = root->right_child;
-            else
-                temp = root->left_child;
-            free(root);
-            return temp;
-        }
 
-        //Two Children
-        else
-        {
-            struct node *temp = find_minimum(root->right_child);
-            root->data = temp->data;
-            root->right_child = pop(root->right_child, temp->data);
-        }
-    }
-    return root;
-}
-
-void inorder(struct node *root)
-{
-	
-    if(root!=NULL) // checking if the root is not null
-    {
-        
-        inorder(root->left_child); // visiting left child
-        printf(" %d ", root->data); // printing data at root
-        inorder(root->right_child);// visiting right child
-    }
-}
-
-void preorder(struct node *root)
-{
-	if(root != NULL)  //checking if the root is not null
-	{
-		printf(" %d ", root->data);//printing the data at root
-		preorder(root->left_child);//visiting left child 
-		preorder(root->right_child);//vsiting right child
-	}
-}
-
-void postorder(struct node *root){
-	if(root != NULL)
-	{
-		postorder(root->left_child);
-		postorder(root->right_child);
-		printf(" %d ", root->data);
-	}
-}
 
 int main()
 {
@@ -125,7 +42,7 @@ int main()
     while(1){
     	
     	printf("*******************MENU*******************");
-    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4. PreOrder\n5. Postorder\n6. Exit\n");
+    	printf("\n1. Insert\n2. Delete\n3. Inoreder\n4. PreOrder\n5. Postorder\n6. Height\n7. Search\n8. Exit\n");
     	printf("Enter your choice: ");
     	scanf ("%d", &ch);
     	
@@ -164,16 +81,28 @@ int main()
 				break;
 			}
 			
-			case 6:
-				exit (0);	
+			case 6:{
+				printf("Height: %d\n", height_of_binary_tree(root));
+				break;
+			}
 				
+				
+			case 7:{
+				printf("Enter a number to search: ");
+				scanf("%d", &num);
+				Search(root, num);
+				printf("\n");
+				break;
+			}
+				
+			case 8:{
+				exit (0);
+			}
     			
     		default:{
     			printf("INVALID SELECTION.");
 				break;
-			}
-    		
-    			
+		}
     			
 		}
     		
@@ -181,4 +110,136 @@ int main()
 	}
 
     return 0;
+}
+
+
+struct node* find_minimum(struct node *root)
+{
+    if(root == NULL)
+        return NULL;
+    else if(root->left_child != NULL)
+        return find_minimum(root->left_child); 
+    return root;
+}
+
+
+void Search(struct node *root, int d) {
+   int depth = 0;
+   struct node *temp = root;
+   
+   while(temp != NULL) {
+      depth++;
+      if(temp->data == d) {
+         printf("\nitem found at depth: %d\n", depth);
+         return;
+      } else if(temp->data > d)
+         temp = temp->left_child;
+        else
+            temp = temp->right_child;
+   }
+   printf("\n item not found\n");
+   return;
+}
+
+
+struct node* insert(struct node *root, int x)
+{
+    
+    if(root==NULL)
+        return new_node(x);
+    else if(x > root->data) 
+        root->right_child = insert(root->right_child, x);
+    else 
+        root->left_child = insert(root->left_child,x);
+    
+}
+
+
+struct node* pop(struct node *root, int x)
+{
+    if(root==NULL)
+        return NULL;
+    if (x>root->data)
+        root->right_child = pop(root->right_child, x);
+    else if(x<root->data)
+        root->left_child = pop(root->left_child, x);
+    else
+    {
+        if(root->left_child==NULL && root->right_child==NULL)
+        {
+            free(root);
+            return NULL;
+        }
+
+        else if(root->left_child==NULL || root->right_child==NULL)
+        {
+            struct node *temp;
+            if(root->left_child==NULL)
+                temp = root->right_child;
+            else
+                temp = root->left_child;
+            free(root);
+            return temp;
+        }
+
+        else
+        {
+            struct node *temp = find_minimum(root->right_child);
+            root->data = temp->data;
+            root->right_child = pop(root->right_child, temp->data);
+        }
+    }
+    return root;
+}
+
+void inorder(struct node *root)
+{
+	
+    if(root!=NULL)
+    {
+        
+        inorder(root->left_child);
+        printf(" %d ", root->data); 
+        inorder(root->right_child);
+    }
+}
+
+void preorder(struct node *root)
+{
+	if(root != NULL)
+	{
+		printf(" %d ", root->data);
+		preorder(root->left_child);
+		preorder(root->right_child);
+	}
+}
+
+void postorder(struct node *root)
+{
+	if(root != NULL)
+	{
+		postorder(root->left_child);
+		postorder(root->right_child);
+		printf(" %d ", root->data);
+	}
+}
+
+int height_of_binary_tree(struct node *root)
+{
+if(root == NULL)
+return 0;
+else
+{
+int left_side;
+int right_side;
+left_side = height_of_binary_tree(root->left_child);
+right_side = height_of_binary_tree(root->right_child);
+if(left_side > right_side)
+{
+return left_side + 1;
+
+}
+else
+return right_side + 1;
+}
 }
