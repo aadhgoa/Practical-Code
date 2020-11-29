@@ -28,6 +28,7 @@ void Search(struct node *root, int x);
 void inorder(struct node *root);
 void preorder(struct node *root);
 void postorder(struct node *root);
+int height_of_binary_tree(struct node *root);
 
 
 
