@@ -71,6 +71,7 @@ int main(){
     return 0;
 }
 
+//!BFS Algo
 void bfs(int s, int n){
     int p, i;//delclaration
     add(s);//same as enqueue
@@ -84,6 +85,34 @@ void bfs(int s, int n){
     }
 }
 
+//!DFS Algo
+void dfs(int s,int n)
+{
+    int i,k;//declaration
+    push(s);//push the source vertice to the stack
+    vis[s]=1;//adding 1 to all the veritices visted.
+    k=pop();//poping the value from the stack
+    if(k!=0)
+        printf(" %d ",k);
+    
+    while(k!=0){
+        for(i=1;i<=n;i++)
+            if((a[k][i]!=0)&&(vis[i]==0)){
+                push(i);
+                vis[i]=1;
+        }
+
+        k=pop();
+        if(k!=0)
+        printf(" %d ",k);
+    }
+    
+for(i=1;i<=n;i++)
+    if(vis[i]==0)
+        dfs(i,n);
+}
+
+//!Queue operations
 void add(int item){
     if(rear == 19)
         printf("Queue Full");
@@ -102,6 +131,7 @@ void add(int item){
     
 }
 
+//!Queue operations
 int delete(){
     int k;
     if((front > rear) || (front == -1))
@@ -114,32 +144,7 @@ int delete(){
     }
 }
 
-void dfs(int s,int n)
-{
-    int i,k;//declaration
-    push(s);//push the source vertice to the stack
-    vis[s]=1;//adding 1 to all the veritices visted.
-    k=pop();//poping the value from the list 
-    if(k!=0)
-        printf(" %d ",k);
-    
-    while(k!=0){
-        for(i=1;i<=n;i++)
-            if((a[k][i]!=0)&&(vis[i]==0)){
-                push(i);
-                vis[i]=1;
-        }
-
-        k=pop();
-        if(k!=0)
-        printf(" %d ",k);
-    }
-for(i=1;i<=n;i++)
-    if(vis[i]==0)
-        dfs(i,n);
-}
-
-
+//!Stack operations
 void push(int item){
     if(top == 19){
         printf("stack overflow");
@@ -150,6 +155,7 @@ void push(int item){
     }
 }
 
+//!Stack operations
 int pop(){
     int k;
      if(top == -1){
